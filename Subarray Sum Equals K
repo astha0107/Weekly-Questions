@@ -1,0 +1,36 @@
+import java.util.HashMap;
+
+public class subarray_equal_k {
+    public static void main(String[] args) {
+        int[] nums1 = {1, 2, 3};
+        int k1 = 3;
+        System.out.println("Output 1: " + subarraySum(nums1, k1));  // Output: 2
+
+        int[] nums2 = {1, 1, 1};
+        int k2 = 2;
+        System.out.println("Output 2: " + subarraySum(nums2, k2));
+    }
+    public static int subarraySum(int[] nums, int k) {
+        // Map to store prefix sums and their frequencies
+        HashMap<Integer, Integer> prefixSumFreq = new HashMap<>();
+        prefixSumFreq.put(0, 1); // Default prefix sum 0 has one count
+
+        int sum = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            sum += num;
+
+            // Check if there's a prefix sum that when subtracted gives k
+            if (prefixSumFreq.containsKey(sum - k)) {
+                count += prefixSumFreq.get(sum - k);
+            }
+
+            // Update frequency of the current prefix sum
+            prefixSumFreq.put(sum, prefixSumFreq.getOrDefault(sum, 0) + 1);
+        }
+
+        return count;
+    }
+
+}
